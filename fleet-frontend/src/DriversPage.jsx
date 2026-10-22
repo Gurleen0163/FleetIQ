@@ -1,3 +1,4 @@
+import { DRIVERS_API } from "./api";
 import { useEffect, useState } from "react";
 import {
   Users,
@@ -13,7 +14,6 @@ import {
   UserRound,
 } from "lucide-react";
 
-const API_URL = "http://localhost:8080/api/drivers";
 
 const emptyForm = {
   id: "",

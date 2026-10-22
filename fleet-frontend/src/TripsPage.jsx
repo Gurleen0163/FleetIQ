@@ -1,3 +1,4 @@
+import { TRIPS_API } from "./api";
 import { useEffect, useState } from "react";
 import {
   Route,
@@ -13,7 +14,6 @@ import {
   X,
 } from "lucide-react";
 
-const API_URL = "http://localhost:8080/api/trips";
 
 const emptyForm = {
   tripNumber: "",

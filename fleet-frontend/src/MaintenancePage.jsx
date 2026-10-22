@@ -1,7 +1,7 @@
+import { MAINTENANCE_API, VEHICLES_API } from "./api";
 import React, { useEffect, useState } from "react";
 
-const API_URL = "http://localhost:8080/api/maintenance";
-const VEHICLES_API = "http://localhost:8080/api/vehicles";
+
 
 function MaintenancePage() {
   const [maintenance, setMaintenance] = useState([]);

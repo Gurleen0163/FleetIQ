@@ -1,3 +1,4 @@
+import { VEHICLES_API } from "./api";
 import { useEffect, useState } from "react";
 import {
   Plus,
@@ -13,7 +14,7 @@ import {
   AlertCircle,
 } from "lucide-react";
 
-const API_URL = "http://localhost:8080/api/vehicles";
+
 const emptyForm = {
   id: "",
   model: "",

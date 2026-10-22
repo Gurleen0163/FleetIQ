@@ -1,4 +1,8 @@
-
+import {
+  VEHICLES_API,
+  TRIPS_API,
+  MAINTENANCE_API
+} from "./api";
 import { useEffect, useMemo, useState } from "react";
 import "./App.css";
 
@@ -53,9 +57,7 @@ import {
    API
 ===================================================== */
 
-const VEHICLES_API = "http://localhost:8080/api/vehicles";
-const TRIPS_API = "http://localhost:8080/api/trips";
-const MAINTENANCE_API = "http://localhost:8080/api/maintenance";
+
 
 /* =====================================================
    MAIN APP

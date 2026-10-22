@@ -1,3 +1,4 @@
+import { VEHICLES_API, TRIPS_API } from "./api";
 import { useEffect, useMemo, useState } from "react";
 import {
   Truck,
@@ -17,9 +18,6 @@ import {
   Zap,
   ShieldCheck,
 } from "lucide-react";
-
-const VEHICLES_API_URL = "http://localhost:8080/api/vehicles";
-const TRIPS_API_URL = "http://localhost:8080/api/trips";
 
 const mapPositions = [
   { top: "25%", left: "12%" },
