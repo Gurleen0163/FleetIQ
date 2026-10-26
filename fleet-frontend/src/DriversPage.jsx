@@ -1,160 +1,96 @@
-                  min="0"
-                  max="5"
-                  step="0.1"
-                />
 
-              </div>
+import { DRIVERS_API } from "./api";
+import { useEffect, useState } from "react";
+import {
+  Users,
+  Plus,
+  Search,
+  Pencil,
+  Trash2,
+  Phone,
+  Mail,
+  Truck,
+  Star,
+  X,
+  UserRound,
+} from "lucide-react";
 
-              {/* BUTTONS */}
 
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent:
-                    "flex-end",
-                  gap: "10px",
-                  marginTop: "24px",
-                  paddingTop:
-                    "18px",
-                  borderTop:
-                    "1px solid #edf0f4",
-                }}
-              >
+const emptyForm = {
+  id: "",
+  name: "",
+  phone: "",
+  email: "",
+  licenseNumber: "",
+  status: "ACTIVE",
+  assignedVehicle: "",
+  trips: "",
+  rating: "",
+};
 
-                <button
-                  type="button"
-                  className="more-button"
-                  onClick={closeModal}
-                  style={{
-                    padding:
-                      "10px 18px",
-                  }}
-                >
-                  Cancel
-                </button>
+function DriversPage() {
+  const [drivers, setDrivers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
-                <button
-                  type="submit"
-                  className="primary-button"
-                >
-                  <Plus size={17} />
+  const [searchTerm, setSearchTerm] = useState("");
 
-                  {editingDriver
-                    ? "Save Changes"
-                    : "Add Driver"}
-                </button>
+  const [showModal, setShowModal] = useState(false);
+  const [editingDriver, setEditingDriver] = useState(null);
 
-              </div>
+  const [form, setForm] = useState(emptyForm);
 
-            </form>
+  /* =========================
+     LOAD DRIVERS
+  ========================= */
 
-          </div>
+  const loadDrivers = async () => {
+    try {
+      setLoading(true);
+      setError("");
 
-        </div>
+      const response = await fetch(DRIVERS_API);
 
-      )}
+      if (!response.ok) {
+        throw new Error("Failed to load drivers");
+      }
 
-    </div>
-  );
-}
+      const data = await response.json();
 
-/* =========================
-   DRIVER STAT CARD
-========================= */
+      setDrivers(data);
+    } catch (err) {
+      console.error("Drivers API Error:", err);
+      setError("Unable to connect to the driver server.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
-function DriverStatCard({
-  title,
-  value,
-  suffix = "",
-  icon,
-}) {
-  return (
-    <div className="stat-card">
+  useEffect(() => {
+    loadDrivers();
+  }, []);
 
-      <div className="stat-top">
+  /* =========================
+     FORM HANDLING
+  ========================= */
 
-        <div className="stat-icon">
-          {icon}
-        </div>
+  const handleChange = (event) => {
+    const { name, value } = event.target;
 
-        <span className="change positive">
-          LIVE
-        </span>
+    setForm((previous) => ({
+      ...previous,
+      [name]: value,
+    }));
+  };
 
-      </div>
+  const openAddModal = () => {
+    setEditingDriver(null);
+    setForm(emptyForm);
+    setShowModal(true);
+  };
 
-      <div className="stat-value">
-        {value}
-        {suffix}
-      </div>
+  const openEditModal = (driver) => {
+    setEditingDriver(driver);
 
-      <div className="stat-bottom">
-
-        <span>
-          {title}
-        </span>
-
-        <small>
-          from database
-        </small>
-
-      </div>
-
-    </div>
-  );
-}
-
-/* =========================
-   FORM FIELD
-========================= */
-
-function FormField({
-  label,
-  name,
-  value,
-  onChange,
-  placeholder,
-  type = "text",
-  required = false,
-  min,
-  max,
-  step,
-}) {
-  return (
-    <div>
-
-      <label
-        style={{
-          display: "block",
-          marginBottom: "7px",
-          fontSize: "12px",
-          fontWeight: "700",
-          color: "#394150",
-        }}
-      >
-        {label}
-      </label>
-
-      <input
-        type={type}
-        name={name}
-        value={value}
-        onChange={onChange}
-        placeholder={placeholder}
-        required={required}
-        min={min}
-        max={max}
-        step={step}
-        style={{
-          width: "100%",
-          boxSizing: "border-box",
-          padding: "11px 12px",
-          border:
-            "1px solid #dfe3e8",
-          borderRadius: "9px",
-          outline: "none",
-          fontSize: "13px",
-        }}
-      />
-
-    </div>
+    setForm({
+      id: driver.id || "",
